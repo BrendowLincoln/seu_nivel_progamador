@@ -1,58 +1,60 @@
-  import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'src/widget/question_widget.dart';
+import 'src/widget/answer_widget.dart';
 
 main() {
   runApp(SeuNivelProgramador());
 
 }
 
-  class SeuNivelProgramador extends StatelessWidget {
+  class SeuNivelProgramador extends StatefulWidget {
 
-  var perguntaSelecionada = 0;
+   SeuNivelProgramadorState createState() => SeuNivelProgramadorState();
+
+  }
+
+  class SeuNivelProgramadorState extends State<SeuNivelProgramador> {
+
+    var _perguntaSelecionada = 0;
 
 
-    void responder() {
-      if(perguntaSelecionada == 1) {
-        perguntaSelecionada--;
-      } else if(perguntaSelecionada == 0) {
-        perguntaSelecionada++;
-      }
-      print(perguntaSelecionada);
-      print('Pergunta respondida!');
+    void _answer() {
+      setState(() {
+        _perguntaSelecionada++;
+    });
     }
 
-    void Function() perguntaRespondida2() {
-      print('Pergunta respondia #2');
-    }
+
 
     Widget build(BuildContext context) {
+      final List<Map<String, Object>> questions = [
+        {
+          'texto': 'Qual sua linguagem favorita?',
+          'respostas': ['PHP', 'Dart', 'JavaScrit', 'Flutter']
+        },
+        {
+          'texto': 'Qual seu banco de dados favorito?',
+          'respostas': ['MySQL', 'MongoDB', 'SQL Server', 'CloudFirestore']
+        },
+        {
+          'texto': 'Qual seu framework favorito?',
+          'respostas': ['.NET Framework', 'Spring', 'Flutter', 'Angular 2']
+        },
+    ];
 
-      final List<String> perguntas = [
-        'Qual sua cor favorita?',
-        'Qual seu animal favorito?'
-      ];
+      List<String> respostas = questions[_perguntaSelecionada]['respostas'];
 
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: Text('Seu Nível de Programador'),
-          ),
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text('Seu Nível de Programador'),
+            ),
             body: Column(
               children: [
-                Text(perguntas[perguntaSelecionada]),
-                RaisedButton(
-                    child: Text('Resposta 1'),
-                    onPressed: responder,
-                ),
-                RaisedButton(
-                    child: Text('Resposta 2'),
-                    onPressed: responder,
-                ),
-                RaisedButton(
-                    child: Text('Resposta 3'),
-                    onPressed: responder,
-                )
+                QuestionWidget(text: questions[_perguntaSelecionada]['texto']),
+                ...respostas.map((t) => AnswerWidget(text: t, onPressed: _answer,)).toList(),
               ],
             )
         ),
