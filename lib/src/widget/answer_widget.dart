@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AnswerWidget extends StatelessWidget {
-  final dynamic text;
+  final String text;
   final void Function() onPressed;
 
   AnswerWidget({this.text, this.onPressed});
@@ -12,7 +12,7 @@ class AnswerWidget extends StatelessWidget {
       width: double.infinity,
       child: RaisedButton(
         textColor: Colors.white,
-        color: Colors.blue,
+        color: Colors.deepOrange,
         child: Text(text),
         onPressed: onPressed,
       ),
