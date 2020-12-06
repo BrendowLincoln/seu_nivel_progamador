@@ -15,30 +15,52 @@ main() {
   class SeuNivelProgramadorState extends State<SeuNivelProgramador> {
 
     var _selectedQuestion = 0;
-
+    var _notaTotal = 0;
     final _questions = const [
       {
         'texto': 'Qual sua linguagem favorita?',
-        'respostas': ['PHP', 'Dart', 'JavaScrit', 'C#']
+        'respostas': [
+          {'texto': 'PHP', 'nota': 5},
+          {'texto': 'Dart', 'nota': 6},
+          {'texto': 'JavaScript', 'nota': 1},
+          {'texto': 'C#', 'nota': 3}
+        ]
       },
       {
         'texto': 'Qual seu banco de dados favorito?',
-        'respostas': ['MySQL', 'MongoDB', 'SQL Server', 'CloudFirestore']
+        'respostas': [
+          {'texto': 'MySQL', 'nota': 5},
+          {'texto': 'MongoDB', 'nota': 1},
+          {'texto': 'SQL Server', 'nota': 3},
+          {'texto': 'CloudFirestore', 'nota': 6}
+        ],
       },
       {
         'texto': 'Qual seu framework favorito?',
-        'respostas': ['.NET Framework', 'Spring', 'Flutter', 'Angular 2']
+        'respostas': [
+          {'texto': '.NET Framework', 'nota': 6},
+          {'texto': 'Spring Boot', 'nota': 5,},
+          {'texto': 'Flutter', 'nota': 1},
+          {'texto': 'Angular 2', 'nota': 3}
+        ],
       },
     ];
 
 
-    void _toAnswer() {
+    void _toAnswer(int nota) {
       if(hasSelectionQuestion) {
         setState(() {
           _selectedQuestion++;
+          _notaTotal +=  nota;
         });
       }
-      print(_selectedQuestion);
+    }
+
+    void restarQuiz() {
+      setState(() {
+        _selectedQuestion = 0;
+        _notaTotal = 0;
+      });
     }
 
     bool get hasSelectionQuestion  => _selectedQuestion < _questions.length;
@@ -59,7 +81,7 @@ main() {
               selectedQuestion: _selectedQuestion, 
               toAnswer: _toAnswer,
             )
-            : FinalAnswerWidget()
+            : FinalAnswerWidget(notaFinal: _notaTotal, whenRestartQuiz: restarQuiz,)
         ),
       ); 
     }
